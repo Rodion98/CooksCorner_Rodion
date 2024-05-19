@@ -20,11 +20,8 @@ AuthData _$AuthDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AuthData {
-  @JsonKey(name: 'access')
-  String? get tokenAccess => throw _privateConstructorUsedError;
-  @JsonKey(name: 'refresh')
-  String? get tokenRefresh => throw _privateConstructorUsedError;
-  AuthInfo? get authInfo => throw _privateConstructorUsedError;
+  String? get username => throw _privateConstructorUsedError;
+  String? get accessToken => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,12 +34,7 @@ abstract class $AuthDataCopyWith<$Res> {
   factory $AuthDataCopyWith(AuthData value, $Res Function(AuthData) then) =
       _$AuthDataCopyWithImpl<$Res, AuthData>;
   @useResult
-  $Res call(
-      {@JsonKey(name: 'access') String? tokenAccess,
-      @JsonKey(name: 'refresh') String? tokenRefresh,
-      AuthInfo? authInfo});
-
-  $AuthInfoCopyWith<$Res>? get authInfo;
+  $Res call({String? username, String? accessToken});
 }
 
 /// @nodoc
@@ -58,36 +50,19 @@ class _$AuthDataCopyWithImpl<$Res, $Val extends AuthData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tokenAccess = freezed,
-    Object? tokenRefresh = freezed,
-    Object? authInfo = freezed,
+    Object? username = freezed,
+    Object? accessToken = freezed,
   }) {
     return _then(_value.copyWith(
-      tokenAccess: freezed == tokenAccess
-          ? _value.tokenAccess
-          : tokenAccess // ignore: cast_nullable_to_non_nullable
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
               as String?,
-      tokenRefresh: freezed == tokenRefresh
-          ? _value.tokenRefresh
-          : tokenRefresh // ignore: cast_nullable_to_non_nullable
+      accessToken: freezed == accessToken
+          ? _value.accessToken
+          : accessToken // ignore: cast_nullable_to_non_nullable
               as String?,
-      authInfo: freezed == authInfo
-          ? _value.authInfo
-          : authInfo // ignore: cast_nullable_to_non_nullable
-              as AuthInfo?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AuthInfoCopyWith<$Res>? get authInfo {
-    if (_value.authInfo == null) {
-      return null;
-    }
-
-    return $AuthInfoCopyWith<$Res>(_value.authInfo!, (value) {
-      return _then(_value.copyWith(authInfo: value) as $Val);
-    });
   }
 }
 
@@ -99,13 +74,7 @@ abstract class _$$AuthDataImplCopyWith<$Res>
       __$$AuthDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: 'access') String? tokenAccess,
-      @JsonKey(name: 'refresh') String? tokenRefresh,
-      AuthInfo? authInfo});
-
-  @override
-  $AuthInfoCopyWith<$Res>? get authInfo;
+  $Res call({String? username, String? accessToken});
 }
 
 /// @nodoc
@@ -119,23 +88,18 @@ class __$$AuthDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tokenAccess = freezed,
-    Object? tokenRefresh = freezed,
-    Object? authInfo = freezed,
+    Object? username = freezed,
+    Object? accessToken = freezed,
   }) {
     return _then(_$AuthDataImpl(
-      tokenAccess: freezed == tokenAccess
-          ? _value.tokenAccess
-          : tokenAccess // ignore: cast_nullable_to_non_nullable
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
               as String?,
-      tokenRefresh: freezed == tokenRefresh
-          ? _value.tokenRefresh
-          : tokenRefresh // ignore: cast_nullable_to_non_nullable
+      accessToken: freezed == accessToken
+          ? _value.accessToken
+          : accessToken // ignore: cast_nullable_to_non_nullable
               as String?,
-      authInfo: freezed == authInfo
-          ? _value.authInfo
-          : authInfo // ignore: cast_nullable_to_non_nullable
-              as AuthInfo?,
     ));
   }
 }
@@ -143,26 +107,19 @@ class __$$AuthDataImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AuthDataImpl implements _AuthData {
-  _$AuthDataImpl(
-      {@JsonKey(name: 'access') required this.tokenAccess,
-      @JsonKey(name: 'refresh') required this.tokenRefresh,
-      required this.authInfo});
+  _$AuthDataImpl({required this.username, required this.accessToken});
 
   factory _$AuthDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$AuthDataImplFromJson(json);
 
   @override
-  @JsonKey(name: 'access')
-  final String? tokenAccess;
+  final String? username;
   @override
-  @JsonKey(name: 'refresh')
-  final String? tokenRefresh;
-  @override
-  final AuthInfo? authInfo;
+  final String? accessToken;
 
   @override
   String toString() {
-    return 'AuthData(tokenAccess: $tokenAccess, tokenRefresh: $tokenRefresh, authInfo: $authInfo)';
+    return 'AuthData(username: $username, accessToken: $accessToken)';
   }
 
   @override
@@ -170,18 +127,15 @@ class _$AuthDataImpl implements _AuthData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthDataImpl &&
-            (identical(other.tokenAccess, tokenAccess) ||
-                other.tokenAccess == tokenAccess) &&
-            (identical(other.tokenRefresh, tokenRefresh) ||
-                other.tokenRefresh == tokenRefresh) &&
-            (identical(other.authInfo, authInfo) ||
-                other.authInfo == authInfo));
+            (identical(other.username, username) ||
+                other.username == username) &&
+            (identical(other.accessToken, accessToken) ||
+                other.accessToken == accessToken));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, tokenAccess, tokenRefresh, authInfo);
+  int get hashCode => Object.hash(runtimeType, username, accessToken);
 
   @JsonKey(ignore: true)
   @override
@@ -199,195 +153,18 @@ class _$AuthDataImpl implements _AuthData {
 
 abstract class _AuthData implements AuthData {
   factory _AuthData(
-      {@JsonKey(name: 'access') required final String? tokenAccess,
-      @JsonKey(name: 'refresh') required final String? tokenRefresh,
-      required final AuthInfo? authInfo}) = _$AuthDataImpl;
+      {required final String? username,
+      required final String? accessToken}) = _$AuthDataImpl;
 
   factory _AuthData.fromJson(Map<String, dynamic> json) =
       _$AuthDataImpl.fromJson;
 
   @override
-  @JsonKey(name: 'access')
-  String? get tokenAccess;
+  String? get username;
   @override
-  @JsonKey(name: 'refresh')
-  String? get tokenRefresh;
-  @override
-  AuthInfo? get authInfo;
+  String? get accessToken;
   @override
   @JsonKey(ignore: true)
   _$$AuthDataImplCopyWith<_$AuthDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-AuthInfo _$AuthInfoFromJson(Map<String, dynamic> json) {
-  return _AuthInfo.fromJson(json);
-}
-
-/// @nodoc
-mixin _$AuthInfo {
-  int? get phone => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  int? get statusId => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $AuthInfoCopyWith<AuthInfo> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AuthInfoCopyWith<$Res> {
-  factory $AuthInfoCopyWith(AuthInfo value, $Res Function(AuthInfo) then) =
-      _$AuthInfoCopyWithImpl<$Res, AuthInfo>;
-  @useResult
-  $Res call({int? phone, String? name, int? statusId});
-}
-
-/// @nodoc
-class _$AuthInfoCopyWithImpl<$Res, $Val extends AuthInfo>
-    implements $AuthInfoCopyWith<$Res> {
-  _$AuthInfoCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? phone = freezed,
-    Object? name = freezed,
-    Object? statusId = freezed,
-  }) {
-    return _then(_value.copyWith(
-      phone: freezed == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as int?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      statusId: freezed == statusId
-          ? _value.statusId
-          : statusId // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$AuthInfoImplCopyWith<$Res>
-    implements $AuthInfoCopyWith<$Res> {
-  factory _$$AuthInfoImplCopyWith(
-          _$AuthInfoImpl value, $Res Function(_$AuthInfoImpl) then) =
-      __$$AuthInfoImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({int? phone, String? name, int? statusId});
-}
-
-/// @nodoc
-class __$$AuthInfoImplCopyWithImpl<$Res>
-    extends _$AuthInfoCopyWithImpl<$Res, _$AuthInfoImpl>
-    implements _$$AuthInfoImplCopyWith<$Res> {
-  __$$AuthInfoImplCopyWithImpl(
-      _$AuthInfoImpl _value, $Res Function(_$AuthInfoImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? phone = freezed,
-    Object? name = freezed,
-    Object? statusId = freezed,
-  }) {
-    return _then(_$AuthInfoImpl(
-      phone: freezed == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as int?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      statusId: freezed == statusId
-          ? _value.statusId
-          : statusId // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$AuthInfoImpl implements _AuthInfo {
-  _$AuthInfoImpl(
-      {required this.phone, required this.name, required this.statusId});
-
-  factory _$AuthInfoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AuthInfoImplFromJson(json);
-
-  @override
-  final int? phone;
-  @override
-  final String? name;
-  @override
-  final int? statusId;
-
-  @override
-  String toString() {
-    return 'AuthInfo(phone: $phone, name: $name, statusId: $statusId)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AuthInfoImpl &&
-            (identical(other.phone, phone) || other.phone == phone) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.statusId, statusId) ||
-                other.statusId == statusId));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, phone, name, statusId);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AuthInfoImplCopyWith<_$AuthInfoImpl> get copyWith =>
-      __$$AuthInfoImplCopyWithImpl<_$AuthInfoImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$AuthInfoImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _AuthInfo implements AuthInfo {
-  factory _AuthInfo(
-      {required final int? phone,
-      required final String? name,
-      required final int? statusId}) = _$AuthInfoImpl;
-
-  factory _AuthInfo.fromJson(Map<String, dynamic> json) =
-      _$AuthInfoImpl.fromJson;
-
-  @override
-  int? get phone;
-  @override
-  String? get name;
-  @override
-  int? get statusId;
-  @override
-  @JsonKey(ignore: true)
-  _$$AuthInfoImplCopyWith<_$AuthInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

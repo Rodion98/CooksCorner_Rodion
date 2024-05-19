@@ -3,7 +3,8 @@ class HttpPaths {
 
   /// Auth
   static const registration = '$baseUrl/api/auth/register';
-  static const authorization = '$baseUrl/accounts/login/';
+  static const authorization = '$baseUrl/api/auth/login';
+
   static const refreshToken = '$baseUrl/accounts/refresh/';
 
   /// Products

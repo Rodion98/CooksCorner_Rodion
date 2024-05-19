@@ -9,7 +9,7 @@ class AuthGuard extends AutoRouteGuard {
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
-    if (authService.cachedUser?.tokenAccess != null) {
+    if (authService.cachedUser?.accessToken != null) {
       resolver.next(true);
     } else {
       router.push(const AuthorizationRoute());

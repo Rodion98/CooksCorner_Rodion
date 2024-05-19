@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/core/app/io_ui.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/core/app/router/app_routes.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/home/presentation/bloc/home_bloc.dart';
 
 class BuilGridView extends StatelessWidget {
@@ -28,6 +30,11 @@ class BuilGridView extends StatelessWidget {
             itemCount: recipes.length,
             itemBuilder: (context, index) {
               return GestureDetector(
+                onTap: () {
+                  AutoRouter.of(context).push(
+                    const DetailRecipeRoute(),
+                  );
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.black,

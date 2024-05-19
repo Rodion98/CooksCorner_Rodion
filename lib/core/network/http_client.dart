@@ -34,8 +34,8 @@ class HttpClient {
 
   void _addPrivateHeaders(RequestOptions options) {
     options.headers[HttpHeaders.contentTypeHeader] = 'application/json';
-    log('Bearer ${_authService.cachedUser?.tokenAccess}');
-    options.headers[HttpHeaders.authorizationHeader] = 'Bearer ${_authService.cachedUser?.tokenAccess}';
+    log('Bearer ${_authService.cachedUser?.accessToken}');
+    options.headers[HttpHeaders.authorizationHeader] = 'Bearer ${_authService.cachedUser?.accessToken}';
   }
 
   void _addPrivateInterceptor(bool isRefresh) async {
@@ -57,7 +57,7 @@ class HttpClient {
         onError: (error, handler) async {
           if (error.response?.statusCode == unauthorizedError) {
             await _refreshToken();
-            final newToken = _authService.cachedUser?.tokenAccess;
+            final newToken = _authService.cachedUser?.accessToken;
 
             error.requestOptions.headers[HttpHeaders.authorizationHeader] = 'Bearer $newToken';
 
@@ -75,13 +75,13 @@ class HttpClient {
   }
 
   Future<void> _refreshToken() async {
-    if (_authService.cachedUser == null || _authService.cachedUser!.tokenRefresh == null) {
+    if (_authService.cachedUser == null || _authService.cachedUser!.accessToken == null) {
       throw Authorization(message: 'Cached user is null or refresh token is null');
     }
 
     final response = await _dio.post(
       HttpPaths.refreshToken,
-      data: {'refresh': _authService.cachedUser!.tokenRefresh!},
+      data: {'refresh': _authService.cachedUser!.accessToken!},
     );
 
     if (response.statusCode == 200) {
@@ -131,7 +131,7 @@ class HttpClient {
     bool isSecure = true,
     bool isRefresh = false,
   }) {
-    _switchInterceptor(isSecure, isRefresh);
+    // _switchInterceptor(isSecure, isRefresh);
 
     return _dio.get(
       path,
@@ -150,7 +150,7 @@ class HttpClient {
     void Function(int, int)? onReceiveProgress,
     bool isSecure = true,
   }) {
-    _switchInterceptor(isSecure);
+    // _switchInterceptor(isSecure);
 
     return _dio.post(
       path,

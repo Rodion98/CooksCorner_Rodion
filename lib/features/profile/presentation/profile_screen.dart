@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/core/app/io_ui.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/core/app/router/app_routes.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/authorization/presentation/auth_screen.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/features/authorization/presentation/bloc/authorization_bloc.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/home/presentation/bloc/home_bloc.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/home/presentation/widgets/build_grid_view.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/manage_profile/presentation/widgets/resend_email_widget.dart';
@@ -100,7 +102,11 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                             ),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          AutoRouter.of(context).push(
+                            const ManageProfileRoute(),
+                          );
+                        },
                         child: Text(
                           t.ManageProfile,
                           style: AppTextStyle.poppins14.copyWith(
@@ -181,13 +187,22 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
         ),
         actions: <Widget>[
           ShowModalButtons(
-            onTap: () {},
+            onTap: () {
+              context.read<AuthorizationBloc>().add(
+                    const AuthorizationEvent.signOut(),
+                  );
+              AutoRouter.of(context).push(
+                const AuthorizationRoute(),
+              );
+            },
             color: AppColors.primarySecondary,
             textColor: AppColors.black,
             text: t.Yes,
           ),
           ShowModalButtons(
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context);
+            },
             color: AppColors.primary,
             textColor: AppColors.white,
             text: t.No,

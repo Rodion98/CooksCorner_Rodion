@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/core/app/io_ui.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/core/app/router/app_routes.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/authorization/presentation/auth_screen.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/search/presentation/widgets/custom_painter_widget.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/search/presentation/widgets/my_text_filed.dart';
@@ -81,6 +82,11 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
             ),
             Spacer(),
             MyElevatedButtonWidget(
+              onTap: () {
+                AutoRouter.of(context).push(
+                  const CreateRecipeRoute(),
+                );
+              },
               text: t.AddRecipe,
               icon: Icons.add_circle,
             ),

@@ -26,7 +26,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: AuthorizationRoute.page,
           path: '/authorization',
-          initial: true,
+          // initial: true,
         ),
         AutoRoute(
           page: DetailRecipeRoute.page,
@@ -49,10 +49,11 @@ class AppRouter extends _$AppRouter {
           // initial: true,
         ),
         AutoRoute(
+          path: '/',
           page: BottomMenuRoute.page,
-          // initial: true,
+          initial: true,
           guards: [
-            // AuthGuard(authService: authService),
+            AuthGuard(authService: authService),
           ],
           children: [
             AutoRoute(page: HomeRoute.page),
