@@ -72,6 +72,8 @@ class AuthorizationBloc extends Bloc<AuthorizationEvent, AuthorizationState> {
       loginModel,
     );
     result.fold((l) {
+      print('failure');
+      print(l.toString());
       emit(
         state.copyWith(
           stateStatus: StateStatus.failure(
@@ -80,6 +82,7 @@ class AuthorizationBloc extends Bloc<AuthorizationEvent, AuthorizationState> {
         ),
       );
     }, (r) {
+      print('success');
       emit(
         state.copyWith(
           stateStatus: const StateStatus.success(),

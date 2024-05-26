@@ -28,7 +28,6 @@ class LoginRepoImpl implements LoginRepo {
       final result = await _dataSource.login(
         loginModel: loginModel,
       );
-      print(result);
       _authService.cachedUser = result;
       return Success.right;
     } catch (e) {

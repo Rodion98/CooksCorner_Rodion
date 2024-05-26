@@ -96,9 +96,9 @@ class _BottomMenuScreenState extends State<BottomMenuScreen> {
             color: AppColors.white,
             boxShadow: [
               BoxShadow(
-                blurRadius: 29,
+                blurRadius: 29.1,
                 spreadRadius: 7,
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withOpacity(0.25),
                 offset: const Offset(0, -3),
               ),
             ],

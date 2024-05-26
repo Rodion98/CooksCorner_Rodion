@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/core/app/io_ui.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/features/search/presentation/bloc/search_bloc.dart';
 
 class MyTextFieldhWidget extends StatefulWidget {
   final String? Function(String?)? validator;
@@ -109,7 +111,13 @@ class _MyTextFieldhWidgetState extends State<MyTextFieldhWidget> {
                             color: AppColors.primary,
                           ),
                           onPressed: () {
-                            widget.controller.clear();
+                            if (!widget.controller.text.isEmpty) {
+                              widget.controller.clear();
+                              setState(() {});
+                              context.read<SearchBloc>().add(
+                                    ClearSearchResults(),
+                                  );
+                            }
                           },
                         )
                   : null,

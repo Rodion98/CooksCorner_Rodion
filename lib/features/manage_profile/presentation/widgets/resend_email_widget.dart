@@ -93,8 +93,11 @@ class ShowModalButtons extends StatelessWidget {
         ),
       ),
       style: ButtonStyle(
-        minimumSize: MaterialStatePropertyAll<Size>(
+        maximumSize: MaterialStatePropertyAll<Size>(
           Size(135, 45),
+        ),
+        minimumSize: MaterialStatePropertyAll<Size>(
+          Size(115, 45),
         ),
         backgroundColor: MaterialStatePropertyAll<Color>(
           color,

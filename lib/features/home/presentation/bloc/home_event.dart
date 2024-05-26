@@ -7,10 +7,7 @@ class Load extends HomeEvent {
   Load({required this.index});
 }
 
-class HomeLoad extends HomeEvent {
-  final int index;
-  HomeLoad({required this.index});
-}
+
 
 
 // @freezed

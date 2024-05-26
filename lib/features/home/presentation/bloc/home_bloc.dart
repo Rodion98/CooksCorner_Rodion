@@ -1,150 +1,32 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/core/app/io_ui.dart';
-import 'package:neobis_flutter_cooks_corner_rodion/features/home/domain/entity/recipe_entity.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/features/home/domain/entity/recipe_home_entity.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/features/home/domain/useCase/home_recipe_use_case.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
 
+@injectable
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  // final TourUseCase tourUseCase;
+  final RecipeHomeUseCase recipeHomeUseCase;
 
-  HomeBloc(
-      // required this.tourUseCase
-      )
-      : super(
-          HomeState(
-            HomeStateModel.initial(),
-          ),
-        ) {
+  HomeBloc(this.recipeHomeUseCase) : super(HomeState(HomeStateModel.initial())) {
     on<Load>(_onLoad);
   }
 
-  Future<void> _onLoad(Load event, Emitter<HomeState> emit) async {
-    // final List<Tab> tabs = Constants.titles.map((title) => Tab(text: title)).toList();
+  FutureOr<void> _onLoad(Load event, Emitter<HomeState> emit) async {
+    emit(HomeState(state.stateModel.copyWith(loading: true)));
+    final meal = MealLabel.values[event.index].label;
+    final result = await recipeHomeUseCase.call(meal);
+    print(result);
 
-    // final List<Tab> tabs = Constants.tabsHome.map((title) => Tab(text: title)).toList();
-
-    List<RecipeEntity> recipes = [
-      RecipeEntity(
-        id: 0,
-        name: 'Egg Omlet',
-        author: 'Ainsley Harriot',
-        likes: 10,
-        favorites: 23,
-        time: 20,
-        level: 'easy',
-        description:
-            'You pick up your palette knife and then work that into. Give your meat a good old rub. That’s it, nice and hot, hot and spicy meat. He-he boy...',
-        ingridients: ['Chicken', 'Olive oil', 'Garlic powder'],
-        image_url: 'https://img1.russianfood.com/dycontent/images_upl/332/big_331048.jpg',
-      ),
-      RecipeEntity(
-        id: 0,
-        name: 'Egg Omlet',
-        author: 'Ainsley Harriot',
-        likes: 10,
-        favorites: 23,
-        time: 20,
-        level: 'easy',
-        description:
-            'You pick up your palette knife and then work that into. Give your meat a good old rub. That’s it, nice and hot, hot and spicy meat. He-he boy...',
-        ingridients: ['Chicken', 'Olive oil', 'Garlic powder'],
-        image_url: 'https://img1.russianfood.com/dycontent/images_upl/332/big_331048.jpg',
-      ),
-      RecipeEntity(
-        id: 0,
-        name: 'Egg Omlet',
-        author: 'Ainsley Harriot',
-        likes: 10,
-        favorites: 23,
-        time: 20,
-        level: 'easy',
-        description:
-            'You pick up your palette knife and then work that into. Give your meat a good old rub. That’s it, nice and hot, hot and spicy meat. He-he boy...',
-        ingridients: ['Chicken', 'Olive oil', 'Garlic powder'],
-        image_url: 'https://img1.russianfood.com/dycontent/images_upl/332/big_331048.jpg',
-      ),
-      RecipeEntity(
-        id: 0,
-        name: 'Egg Omlet',
-        author: 'Ainsley Harriot',
-        likes: 10,
-        favorites: 23,
-        time: 20,
-        level: 'easy',
-        description:
-            'You pick up your palette knife and then work that into. Give your meat a good old rub. That’s it, nice and hot, hot and spicy meat. He-he boy...',
-        ingridients: ['Chicken', 'Olive oil', 'Garlic powder'],
-        image_url: 'https://img1.russianfood.com/dycontent/images_upl/332/big_331048.jpg',
-      ),
-      RecipeEntity(
-        id: 0,
-        name: 'Egg Omlet',
-        author: 'Ainsley Harriot',
-        likes: 10,
-        favorites: 23,
-        time: 20,
-        level: 'easy',
-        description:
-            'You pick up your palette knife and then work that into. Give your meat a good old rub. That’s it, nice and hot, hot and spicy meat. He-he boy...',
-        ingridients: ['Chicken', 'Olive oil', 'Garlic powder'],
-        image_url: 'https://img1.russianfood.com/dycontent/images_upl/332/big_331048.jpg',
-      ),
-      RecipeEntity(
-        id: 0,
-        name: 'Egg Omlet',
-        author: 'Ainsley Harriot',
-        likes: 10,
-        favorites: 23,
-        time: 20,
-        level: 'easy',
-        description:
-            'You pick up your palette knife and then work that into. Give your meat a good old rub. That’s it, nice and hot, hot and spicy meat. He-he boy...',
-        ingridients: ['Chicken', 'Olive oil', 'Garlic powder'],
-        image_url: 'https://img1.russianfood.com/dycontent/images_upl/332/big_331048.jpg',
-      ),
-      RecipeEntity(
-        id: 0,
-        name: 'Egg Omlet',
-        author: 'Ainsley Harriot',
-        likes: 10,
-        favorites: 23,
-        time: 20,
-        level: 'easy',
-        description:
-            'You pick up your palette knife and then work that into. Give your meat a good old rub. That’s it, nice and hot, hot and spicy meat. He-he boy...',
-        ingridients: ['Chicken', 'Olive oil', 'Garlic powder'],
-        image_url: 'https://img1.russianfood.com/dycontent/images_upl/332/big_331048.jpg',
-      ),
-      RecipeEntity(
-        id: 0,
-        name: 'Egg Omlet',
-        author: 'Ainsley Harriot',
-        likes: 10,
-        favorites: 23,
-        time: 20,
-        level: 'easy',
-        description:
-            'You pick up your palette knife and then work that into. Give your meat a good old rub. That’s it, nice and hot, hot and spicy meat. He-he boy...',
-        ingridients: ['Chicken', 'Olive oil', 'Garlic powder'],
-        image_url: 'https://img1.russianfood.com/dycontent/images_upl/332/big_331048.jpg',
-      ),
-    ];
-
-    // String category = Constants.titles[event.index!].toLowerCase().replaceAll(' ', '-');
-    // if (category == "asia" || category == "europe") {
-    //   category = category.substring(0, 1).toUpperCase() + category.substring(1);
-    //   category = "continent/$category";
-    // }
-    // List<RecipeEntity> recipes = [];
-    // await tourUseCase.call(category);
-    final index = event.index;
-    // List<RecipeEntity> recipes = [];
-
-    emit(HomeState(state.stateModel.copyWith(
-      index: index,
-      recipes: recipes,
-    )));
+    result.fold((l) {
+      emit(HomeState(state.stateModel.copyWith(message: l.message ?? l.toString())));
+    }, (r) {
+      emit(HomeState(state.stateModel.copyWith(recipes: r)));
+    });
   }
 }

@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/core/app/enums/enums.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/core/app/io_ui.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/core/app/router/app_routes.dart';
-import 'package:neobis_flutter_cooks_corner_rodion/features/authorization/presentation/auth_screen.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/features/search/presentation/bloc/search_bloc.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/search/presentation/widgets/custom_painter_widget.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/search/presentation/widgets/my_text_filed.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/features/search/presentation/widgets/search_result_widget.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/gen/strings.g.dart';
 
 @RoutePage()
@@ -19,7 +21,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMixin {
   late TabController tabController;
 
-  final search = TextEditingController();
+  final query = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -27,19 +29,30 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
       length: Constants.tabsSearch.length,
       vsync: this,
     );
-    // tabController.addListener(() {
-    //   if (tabController.indexIsChanging) {
-    //     context.read<HomeBloc>().add(
-    //           Load(index: tabController.index),
-    //         );
-    //   }
-    // });
-    // context.read<HomeBloc>().add(Load(index: 0));
+    tabController.addListener(() {
+      if (tabController.indexIsChanging) {
+        _performSearch();
+      }
+    });
+  }
+
+  void _performSearch() {
+    if (query.text.isNotEmpty) {
+      context.read<SearchBloc>().add(
+            Search(type: tabController.index, query: query.text),
+          );
+    } else if (query.text.isEmpty) {
+      print('empty');
+      query.clear();
+      context.read<SearchBloc>().add(
+            ClearSearchResults(),
+          );
+    }
   }
 
   @override
   void dispose() {
-    search.dispose();
+    query.dispose();
     super.dispose();
   }
 
@@ -47,7 +60,6 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -76,11 +88,24 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
             ),
             SizedBox(height: 28),
             MyTextFieldhWidget(
-              controller: search,
+              onChanged: (_) {
+                context.read<SearchBloc>().add(
+                      Search(
+                        type: tabController.index,
+                        query: query.text,
+                      ),
+                    );
+              },
+              controller: query,
               hintText: t.SearchRecipes,
               suffixIcon: [Icons.search, Icons.clear],
             ),
-            Spacer(),
+            Expanded(
+              child: TabBarView(controller: tabController, children: [
+                SearchResultsWidget(type: SearchType.chefs),
+                SearchResultsWidget(type: SearchType.recipes),
+              ]),
+            ),
             MyElevatedButtonWidget(
               onTap: () {
                 AutoRouter.of(context).push(
@@ -101,9 +126,6 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
     return TabBar(
       controller: tabController,
       onTap: (S) {},
-      //  (index) {
-      //   context.read<HomeBloc>().add(Load(index: index));
-      // },
       tabAlignment: TabAlignment.fill,
       overlayColor: MaterialStateProperty.all(
         Colors.transparent,
@@ -119,7 +141,6 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
         fontWeight: FontWeight.w500,
         color: AppColors.white,
       ),
-
       indicatorColor: AppColors.black,
       tabs: category,
       indicator: CustomTabIndicator(

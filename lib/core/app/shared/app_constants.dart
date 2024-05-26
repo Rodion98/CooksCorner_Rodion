@@ -14,8 +14,8 @@ class Constants {
   static List<String> titlesForProfile = [t.MyRecipe, t.SavedRecipe];
   static List<Tab> tabsProfile = Constants.titlesForProfile.map((title) => Tab(text: title)).toList();
 
-  static List<String> titlesForSearch = [t.MyRecipe, t.SavedRecipe];
-  static List<Tab> tabsSearch = Constants.titlesForProfile.map((title) => Tab(text: title)).toList();
+  static List<String> titlesForSearch = [t.Chefs, t.Recipes];
+  static List<Tab> tabsSearch = Constants.titlesForSearch.map((title) => Tab(text: title)).toList();
 
   static List<String> titlesForCreate = [t.Easy, t.Medium, t.Hard];
   static List<Tab> tabsCreate = Constants.titlesForCreate

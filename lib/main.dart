@@ -10,7 +10,7 @@ import 'package:neobis_flutter_cooks_corner_rodion/injection/injection.dart';
 FutureOr<void> main() async {
   runZonedGuarded(
     () async {
-      WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+      WidgetsFlutterBinding.ensureInitialized();
       await configureDependencies();
 
       await getIt<AuthService>().recoverUser();

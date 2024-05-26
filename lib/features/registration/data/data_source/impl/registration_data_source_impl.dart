@@ -16,13 +16,6 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
   Future<void> registration({
     RegistrationModel? registrationModel,
   }) async {
-    // final json = {
-    //   "email": registrationModel!.email,
-    //   "name": registrationModel!.name,
-    //   "password": registrationModel!.password,
-    //   "confirmPassword": registrationModel!.confirmPassword
-    // };
-    // print(json);
     try {
       final response = await _client.post(
         HttpPaths.registration,
@@ -35,10 +28,8 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
         isSecure: false,
       );
       print(response);
-      // Handle successful response
     } catch (e) {
       print('Error: $e');
-      // Handle error - display error message to the user
     }
   }
 }

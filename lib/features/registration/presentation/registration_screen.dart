@@ -34,26 +34,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: AppColors.primary,
-    ));
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Column(children: [
-          ColoredContainer(
-            t.SignupTitle1,
-            t.SignupTitle2,
-            '',
-            0.27,
-          ),
-          SizedBox(height: 36),
-          _builldTextFields(),
-          SizedBox(height: 24),
-          _buildButton(),
-          Spacer(),
-          _buildTextButton(),
-        ]),
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Column(children: [
+            ColoredContainer(
+              t.SignupTitle1,
+              t.SignupTitle2,
+              '',
+              0.27,
+            ),
+            SizedBox(height: 36),
+            _builldTextFields(),
+            SizedBox(height: 24),
+            _buildButton(),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: _buildTextButton(),
+            ),
+          ]),
+        ),
       ),
     );
   }
@@ -78,9 +79,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           registrationModel: registrationModel,
                         ),
                       );
-                  // AutoRouter.of(context).replace(
-                  //   AuthorizationRoute(),
-                  // );
+                  AutoRouter.of(context).replace(
+                    AuthorizationRoute(),
+                  );
                 },
               )
             : MyElevatedButtonWidget(text: t.SignUp);

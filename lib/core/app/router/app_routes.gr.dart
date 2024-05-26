@@ -34,9 +34,10 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     DetailRecipeRoute.name: (routeData) {
+      final args = routeData.argsAs<DetailRecipeRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const DetailRecipeScreen(),
+        child: DetailRecipeScreen(id: args.id),
       );
     },
     HomeRoute.name: (routeData) {
@@ -116,16 +117,31 @@ class CreateRecipeRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [DetailRecipeScreen]
-class DetailRecipeRoute extends PageRouteInfo<void> {
-  const DetailRecipeRoute({List<PageRouteInfo>? children})
-      : super(
+class DetailRecipeRoute extends PageRouteInfo<DetailRecipeRouteArgs> {
+  DetailRecipeRoute({
+    required int? id,
+    List<PageRouteInfo>? children,
+  }) : super(
           DetailRecipeRoute.name,
+          args: DetailRecipeRouteArgs(id: id),
           initialChildren: children,
         );
 
   static const String name = 'DetailRecipeRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<DetailRecipeRouteArgs> page =
+      PageInfo<DetailRecipeRouteArgs>(name);
+}
+
+class DetailRecipeRouteArgs {
+  const DetailRecipeRouteArgs({required this.id});
+
+  final int? id;
+
+  @override
+  String toString() {
+    return 'DetailRecipeRouteArgs{id: $id}';
+  }
 }
 
 /// generated route for

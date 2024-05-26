@@ -20,7 +20,7 @@ class ColoredContainer extends StatelessWidget {
         left: 20,
       ),
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * height,
+      height: MediaQuery.of(context).size.height * height + MediaQuery.of(context).padding.top,
       decoration: BoxDecoration(
         color: AppColors.primary,
       ),

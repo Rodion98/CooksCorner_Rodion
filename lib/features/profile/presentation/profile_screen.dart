@@ -1,14 +1,16 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/core/app/io_ui.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/core/app/router/app_routes.dart';
-import 'package:neobis_flutter_cooks_corner_rodion/features/authorization/presentation/auth_screen.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/core/network/entity/state_status.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/authorization/presentation/bloc/authorization_bloc.dart';
-import 'package:neobis_flutter_cooks_corner_rodion/features/home/presentation/bloc/home_bloc.dart';
-import 'package:neobis_flutter_cooks_corner_rodion/features/home/presentation/widgets/build_grid_view.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/features/home/presentation/widgets/build_grid_view%20copy.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/manage_profile/presentation/widgets/resend_email_widget.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/features/profile/domain/entity/profile_entity.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/gen/strings.g.dart';
 
 @RoutePage()
@@ -25,18 +27,18 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
   @override
   void initState() {
     super.initState();
+    context.read<ProfileBloc>().add(ProfileEvent.getProfile());
     tabController = TabController(
       length: Constants.tabsProfile.length,
       vsync: this,
     );
     tabController.addListener(() {
-      if (tabController.indexIsChanging) {
-        context.read<HomeBloc>().add(
-              Load(index: tabController.index),
-            );
+      if (tabController.index == 0) {
+        context.read<ProfileBloc>().add(ProfileEvent.getMyRecipes());
+      } else {
+        context.read<ProfileBloc>().add(ProfileEvent.getSavedRecipes());
       }
     });
-    context.read<HomeBloc>().add(Load(index: 0));
   }
 
   @override
@@ -49,91 +51,122 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: _buildAppBar(context),
-      body: SafeArea(
-        child: AnnotatedRegion(
-          value: const SystemUiOverlayStyle(
-            statusBarColor: AppColors.white,
-            // statusBarIconBrightness: Brightness.dark,
-          ),
-          child: NestedScrollView(
-            physics: NeverScrollableScrollPhysics(),
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverPadding(
-                  padding: const EdgeInsets.only(top: 27, left: 20, right: 20),
-                  sliver: SliverToBoxAdapter(
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            maxRadius: 44,
-                            backgroundImage: NetworkImage(
-                              'https://robohash.org/bf2e27b0d015d07a3540a337f224d856?set=set4&bgset=&size=400x400',
-                            ),
-                          ),
-                          SizedBox(width: 28),
-                          _buildAccountInfo(t.Recipe, 29),
-                          SizedBox(width: 17),
-                          _buildAccountInfo(t.Followers, 144),
-                          SizedBox(width: 17),
-                          _buildAccountInfo(t.Following, 100)
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Sarthak Ranjan Hota',
-                        style: AppTextStyle.poppins16.copyWith(color: AppColors.black, height: 1.75),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        'Im a passionate chef who loves creating delicious dishes with flair.',
-                        style: AppTextStyle.poppins12.copyWith(
-                          height: 1.41,
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(AppColors.primarySecondary),
-                          minimumSize: MaterialStateProperty.all<Size>(Size(double.infinity, 44)),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6.0),
-                            ),
-                          ),
-                        ),
-                        onPressed: () {
-                          AutoRouter.of(context).push(
-                            const ManageProfileRoute(),
-                          );
-                        },
-                        child: Text(
-                          t.ManageProfile,
-                          style: AppTextStyle.poppins14.copyWith(
-                            color: AppColors.primary,
-                            height: 1.21,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      BlocBuilder<HomeBloc, HomeState>(
-                        builder: (context, state) {
-                          final stateModel = state.stateModel;
-                          return _buildTabBar(Constants.tabsProfile, stateModel.index);
-                        },
-                      ),
-                    ]),
-                  ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildProfileInfo(),
+          _buildTabBar(Constants.tabsProfile),
+          Expanded(
+            child: TabBarView(
+              controller: tabController,
+              children: [
+                BlocBuilder<ProfileBloc, ProfileState>(
+                  builder: (context, state) {
+                    final recipes = state.myRecipes;
+                    return recipes!.isNotEmpty
+                        ? BuilGridViewCopy(recipes: recipes)
+                        : Center(child: Text('No recipes yet'));
+                  },
                 ),
-              ];
-            },
-            body: Expanded(
-              child: TabBarView(controller: tabController, children: [
-                BuilGridView(),
-                BuilGridView(),
-              ]),
+                BlocBuilder<ProfileBloc, ProfileState>(
+                  builder: (context, state) {
+                    final recipes = state.savedRedipes;
+                    if (state.stateStatus == StateStatus.loading) {
+                      return CircularProgressIndicator();
+                    } else
+                      return recipes!.isNotEmpty
+                          ? BuilGridViewCopy(recipes: recipes)
+                          : Center(child: Text('No recipes yet'));
+                  },
+                ),
+              ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProfileInfo() {
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        if (state.stateStatus == StateStatus.loading()) {
+          return Center(child: CircularProgressIndicator());
+        } else if (state.stateStatus == StateStatus.failure(message: 'Failed to load profile')) {
+          return Center(child: Text('Failed to load profile'));
+        } else if (state.profileEntity == null) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          final profile = state.profileEntity!;
+          return Padding(
+            padding: const EdgeInsets.only(top: 27, left: 20, right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildGeneralInfo(profile),
+                SizedBox(height: 10),
+                Text(
+                  state.profileEntity!.name!,
+                  style: AppTextStyle.poppins16.copyWith(color: AppColors.black, height: 1.75),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  profile.biography != null ? profile.biography! : 'No information',
+                  style: AppTextStyle.poppins12.copyWith(
+                    height: 1.41,
+                  ),
+                ),
+                SizedBox(height: 10),
+                _buildManageProfileButton(context),
+              ],
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  Row _buildGeneralInfo(ProfileEntity profile) {
+    return Row(
+      children: [
+        CircleAvatar(
+          maxRadius: 44,
+          backgroundImage: NetworkImage(
+            profile.imageUrl!,
+          ),
+        ),
+        SizedBox(width: 28),
+        _buildAccountInfo(t.Recipe, profile.recipeQuantity!),
+        SizedBox(width: 17),
+        _buildAccountInfo(t.Followers, profile.followerQuantity!),
+        SizedBox(width: 17),
+        _buildAccountInfo(t.Following, profile.followingQuantity!)
+      ],
+    );
+  }
+
+  ElevatedButton _buildManageProfileButton(BuildContext context) {
+    return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(AppColors.primarySecondary),
+        minimumSize: MaterialStateProperty.all<Size>(Size(double.infinity, 44)),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6.0),
+          ),
+        ),
+      ),
+      onPressed: () {
+        AutoRouter.of(context).push(
+          const ManageProfileRoute(),
+        );
+      },
+      child: Text(
+        t.ManageProfile,
+        style: AppTextStyle.poppins14.copyWith(
+          color: AppColors.primary,
+          height: 1.21,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );
@@ -141,6 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
+        backgroundColor: AppColors.white,
         leadingWidth: 100,
         leading: Padding(
           padding: const EdgeInsets.only(
@@ -186,26 +220,31 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
           ),
         ),
         actions: <Widget>[
-          ShowModalButtons(
-            onTap: () {
-              context.read<AuthorizationBloc>().add(
-                    const AuthorizationEvent.signOut(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ShowModalButtons(
+                onTap: () {
+                  context.read<AuthorizationBloc>().add(
+                        const AuthorizationEvent.signOut(),
+                      );
+                  AutoRouter.of(context).push(
+                    const AuthorizationRoute(),
                   );
-              AutoRouter.of(context).push(
-                const AuthorizationRoute(),
-              );
-            },
-            color: AppColors.primarySecondary,
-            textColor: AppColors.black,
-            text: t.Yes,
-          ),
-          ShowModalButtons(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            color: AppColors.primary,
-            textColor: AppColors.white,
-            text: t.No,
+                },
+                color: AppColors.primarySecondary,
+                textColor: AppColors.black,
+                text: t.Yes,
+              ),
+              ShowModalButtons(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                color: AppColors.primary,
+                textColor: AppColors.white,
+                text: t.No,
+              ),
+            ],
           )
         ],
         actionsAlignment: MainAxisAlignment.spaceBetween,
@@ -213,12 +252,9 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     );
   }
 
-  TabBar _buildTabBar(List<Tab> category, int selectedIndex) {
+  TabBar _buildTabBar(List<Tab> category) {
     return TabBar(
       controller: tabController,
-      onTap: (index) {
-        context.read<HomeBloc>().add(Load(index: index));
-      },
       tabAlignment: TabAlignment.fill,
       overlayColor: MaterialStateProperty.all(Colors.transparent),
       dividerColor: Colors.white,

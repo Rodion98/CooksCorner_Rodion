@@ -51,43 +51,46 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> with TickerProv
       backgroundColor: AppColors.white,
       appBar: AppBarWidget(text: t.CreateRecipe),
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-          child: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buidPhotoLoad(),
-            SizedBox(height: AppProps.kPageMargin),
-            MyTextFieldhWidget(
-              controller: name,
-              hintText: t.NameYourRecipe,
-              title: t.NameYourRecipe,
-            ),
-            SizedBox(height: AppProps.kPageMargin),
-            MyTextFieldhWidget(
-              controller: description,
-              hintText: t.Description,
-              title: t.AddDescription,
-            ),
-            SizedBox(height: AppProps.kPageMargin),
-            _buildIngridients(context),
-            SizedBox(height: AppProps.kPageMargin),
-            _buildDifficultyButtons(),
-            SizedBox(height: AppProps.kPageMargin),
-            MyTextFieldhWidget(
-              controller: time,
-              hintText: t.HowMuchTimeNeed,
-              title: t.time,
-            ),
-            // DropdownExample()
-            SizedBox(height: AppProps.kPageMargin),
-            _buildDropdownMenu(context),
-            Spacer(),
-            MyElevatedButtonWidget(text: t.CreateARecipe)
-          ],
-        ),
-      )),
+      body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: SafeArea(
+            child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buidPhotoLoad(),
+              SizedBox(height: AppProps.kPageMargin),
+              MyTextFieldhWidget(
+                controller: name,
+                hintText: t.NameYourRecipe,
+                title: t.NameYourRecipe,
+              ),
+              SizedBox(height: AppProps.kPageMargin),
+              MyTextFieldhWidget(
+                controller: description,
+                hintText: t.Description,
+                title: t.AddDescription,
+              ),
+              SizedBox(height: AppProps.kPageMargin),
+              _buildIngridients(context),
+              SizedBox(height: AppProps.kPageMargin),
+              _buildDifficultyButtons(),
+              SizedBox(height: AppProps.kPageMargin),
+              MyTextFieldhWidget(
+                controller: time,
+                hintText: t.HowMuchTimeNeed,
+                title: t.time,
+              ),
+              // DropdownExample()
+              SizedBox(height: AppProps.kPageMargin),
+              _buildDropdownMenu(context),
+              // Spacer(),
+              MyElevatedButtonWidget(text: t.CreateARecipe)
+            ],
+          ),
+        )),
+      ),
     );
   }
 

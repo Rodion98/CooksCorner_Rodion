@@ -32,11 +32,12 @@ class BuilGridView extends StatelessWidget {
               return GestureDetector(
                 onTap: () {
                   AutoRouter.of(context).push(
-                    const DetailRecipeRoute(),
+                    DetailRecipeRoute(id: recipes[index].id),
                   );
                 },
                 child: Container(
                   decoration: BoxDecoration(
+                    image: DecorationImage(image: NetworkImage(recipes[index].image!), fit: BoxFit.fill),
                     color: Colors.black,
                     borderRadius: const BorderRadius.all(
                       Radius.circular(15),
@@ -54,7 +55,7 @@ class BuilGridView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${recipes[index].name}",
+                          "${recipes[index].recipeName}",
                           style: AppTextStyle.poppins16.copyWith(
                             fontWeight: FontWeight.w500,
                             color: AppColors.background,
@@ -77,7 +78,7 @@ class BuilGridView extends StatelessWidget {
                             ], () {}),
                             SizedBox(width: 4),
                             Text(
-                              "${recipes[index].likes}",
+                              "${recipes[index].likesQuantity}",
                               style: AppTextStyle.poppins14.copyWith(
                                 color: AppColors.background,
                               ),
@@ -89,7 +90,7 @@ class BuilGridView extends StatelessWidget {
                             ], () {}),
                             SizedBox(width: 4),
                             Text(
-                              "${recipes[index].favorites}",
+                              "${recipes[index].savesQuantity}",
                               style: AppTextStyle.poppins14.copyWith(
                                 color: AppColors.background,
                               ),

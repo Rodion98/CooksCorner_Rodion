@@ -8,6 +8,7 @@ class AuthData with _$AuthData {
   factory AuthData({
     required String? username,
     required String? accessToken,
+    required String? refreshToken,
 
     // @JsonKey(name: 'refresh') required String? tokenRefresh,
     // required AuthInfo? authInfo,

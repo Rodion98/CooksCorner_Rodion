@@ -16,6 +16,7 @@ class AuthService {
     _cachedUser = info;
     print(info!.accessToken);
     print(info.username);
+    print(info.refreshToken);
     if (_cachedUser != null) {
       getIt<SecureStorageService>().setUser(_cachedUser!);
     }

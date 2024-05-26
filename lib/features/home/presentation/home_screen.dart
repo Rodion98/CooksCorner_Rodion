@@ -1,10 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/core/app/io_ui.dart';
-import 'package:neobis_flutter_cooks_corner_rodion/features/authorization/presentation/auth_screen.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/home/presentation/bloc/home_bloc.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/features/home/presentation/widgets/build_grid_view%20copy.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/home/presentation/widgets/build_grid_view.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/gen/strings.g.dart';
 
@@ -26,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       length: Constants.tabsHome.length,
       vsync: this,
     );
+    context.read<HomeBloc>().add(Load(index: 0));
     tabController.addListener(() {
       if (tabController.indexIsChanging) {
         context.read<HomeBloc>().add(
@@ -33,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             );
       }
     });
-    context.read<HomeBloc>().add(Load(index: 0));
   }
 
   @override
@@ -46,61 +45,64 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: NestedScrollView(
-          physics: NeverScrollableScrollPhysics(),
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverToBoxAdapter(
-                child: ColoredContainer(
-                  t.Hi,
-                  'Sarthak',
-                  t.UIDesignerCook,
-                  0.16,
-                ),
-              ),
-              SliverPadding(
-                padding: EdgeInsets.only(left: 20, right: 20, top: 20),
-                sliver: SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        t.Category,
-                        style: AppTextStyle.poppins18,
-                      ),
-                      BlocBuilder<HomeBloc, HomeState>(
-                        builder: (context, state) {
-                          final stateModel = state.stateModel;
-                          return _buildTabBar(Constants.tabsHome, stateModel.index);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ];
-          },
-          body: TabBarView(
-            controller: tabController,
-            children: [
-              BuilGridView(),
-              BuilGridView(),
-              BuilGridView(),
-            ],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ColoredContainer(
+            t.Hi,
+            'Sarthak',
+            t.UIDesignerCook,
+            0.16,
           ),
-        ),
+          Padding(
+            padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  t.Category,
+                  style: AppTextStyle.poppins18,
+                ),
+                _buildTabBar(
+                  Constants.tabsHome,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: tabController,
+              children: [
+                BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+                  HomeState;
+                  final recipes = state.stateModel.recipes;
+                  return BuilGridViewCopy(recipes: recipes);
+                }),
+                BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+                  HomeState;
+                  final recipes = state.stateModel.recipes;
+                  return BuilGridViewCopy(recipes: recipes);
+                }),
+                BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+                  HomeState;
+                  final recipes = state.stateModel.recipes;
+                  return BuilGridViewCopy(recipes: recipes);
+                })
+              ],
+            ),
+          ),
+          SizedBox(height: 8)
+        ],
       ),
     );
   }
 
-  TabBar _buildTabBar(List<Tab> category, int selectedIndex) {
+  TabBar _buildTabBar(List<Tab> category) {
     return TabBar(
       controller: tabController,
-      onTap: (index) {
-        context.read<HomeBloc>().add(Load(index: index));
-      },
+      // onTap: (index) {
+      //   context.read<HomeBloc>().add(Load(index: index));
+      // },
       tabAlignment: TabAlignment.start,
       indicatorWeight: 0.5,
       indicatorPadding: EdgeInsets.all(10),

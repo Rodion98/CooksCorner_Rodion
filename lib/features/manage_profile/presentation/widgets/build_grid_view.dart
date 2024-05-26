@@ -47,7 +47,7 @@ class BuilGridView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${recipes[index].name}",
+                          "${recipes[index].recipeName}",
                           style: AppTextStyle.poppins16.copyWith(
                             fontWeight: FontWeight.w500,
                             color: AppColors.background,
@@ -70,7 +70,7 @@ class BuilGridView extends StatelessWidget {
                             ], () {}),
                             SizedBox(width: 4),
                             Text(
-                              "${recipes[index].likes}",
+                              "${recipes[index].likesQuantity}",
                               style: AppTextStyle.poppins14.copyWith(
                                 color: AppColors.background,
                               ),
@@ -82,7 +82,7 @@ class BuilGridView extends StatelessWidget {
                             ], () {}),
                             SizedBox(width: 4),
                             Text(
-                              "${recipes[index].favorites}",
+                              "${recipes[index].savesQuantity}",
                               style: AppTextStyle.poppins14.copyWith(
                                 color: AppColors.background,
                               ),

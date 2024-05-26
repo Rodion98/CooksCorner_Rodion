@@ -11,7 +11,7 @@ Left<Failure, T> onRepositoryException<T>(dynamic exception) {
         exception.type == DioExceptionType.sendTimeout) {
       failure = ConnectionFailure(message: exception.type.toString());
     } else {
-      if (exception.response?.statusCode == 401) {
+      if (exception.response?.statusCode == 403) {
         failure = Authorization(message: 'Token invalidate');
       } else {
         if (exception.response != null && exception.response?.data['msg'].toString() != null) {

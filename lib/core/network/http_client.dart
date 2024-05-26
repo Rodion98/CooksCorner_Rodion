@@ -78,14 +78,20 @@ class HttpClient {
     if (_authService.cachedUser == null || _authService.cachedUser!.accessToken == null) {
       throw Authorization(message: 'Cached user is null or refresh token is null');
     }
-
-    final response = await _dio.post(
-      HttpPaths.refreshToken,
-      data: {'refresh': _authService.cachedUser!.accessToken!},
-    );
-
+    print('proverka');
+    print(_authService.cachedUser!.refreshToken!);
+    final response = await post(HttpPaths.refreshToken,
+        queryParameters: {'refreshToken': _authService.cachedUser!.refreshToken!}, isSecure: false);
+    print(response.statusCode);
     if (response.statusCode == 200) {
-      _authService.cachedUser = AuthData.fromJson(response.data);
+      final data = response.data;
+      final updatedAuthData = AuthData(
+        username: data['username'],
+        accessToken: data['newAccessToken'],
+        refreshToken: _authService.cachedUser!.refreshToken,
+      );
+      print(updatedAuthData.refreshToken);
+      _authService.cachedUser = updatedAuthData;
     } else {
       _authService.cachedUser = null;
       throw Authorization(message: 'Cached user is null or refresh token is null');
@@ -131,7 +137,7 @@ class HttpClient {
     bool isSecure = true,
     bool isRefresh = false,
   }) {
-    // _switchInterceptor(isSecure, isRefresh);
+    _switchInterceptor(isSecure, isRefresh);
 
     return _dio.get(
       path,
@@ -150,7 +156,7 @@ class HttpClient {
     void Function(int, int)? onReceiveProgress,
     bool isSecure = true,
   }) {
-    // _switchInterceptor(isSecure);
+    _switchInterceptor(isSecure);
 
     return _dio.post(
       path,

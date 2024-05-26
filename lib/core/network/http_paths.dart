@@ -1,19 +1,24 @@
 class HttpPaths {
   static const baseUrl = 'https://supportive-love-cook2.up.railway.app';
 
-  /// Auth
   static const registration = '$baseUrl/api/auth/register';
   static const authorization = '$baseUrl/api/auth/login';
+  static const refreshToken = '$baseUrl/api/auth/refresh-token';
 
-  static const refreshToken = '$baseUrl/accounts/refresh/';
+  /// Profile
+  static const getMyProfile = '$baseUrl/api/users/get-my-profile';
+  static const getMyRecipes = '$baseUrl/api/recipes/my-recipes';
+  static const getMySavedRecipes = '$baseUrl/api/recipes/my-saved-recipes';
 
-  /// Products
-  static const acceptance = '$baseUrl/products/acceptance/';
-  static const getStorages = '$baseUrl/products/storages';
-  static getWheelById(int wheelId) => '$baseUrl/products/wheels/$wheelId';
-  static getStoryById(int storageId) => '$baseUrl/products/storages/$storageId';
+  /// Home Recipes
+  static const getHomeRecipes = '$baseUrl/api/recipes/get-by-category';
+  static const getDetailRecipe = '$baseUrl/api/recipes/get-by-id/';
 
-  /// Actions
-  static const getActions = '$baseUrl/actions/';
-  static getSaleById(int saleId) => '$baseUrl/actions/sales/$saleId';
+  /// Search Recipes
+  static const getSearchRecipes = '$baseUrl/api/recipes/search-recipe';
+  static const getSearchChefs = '$baseUrl/api/users/search-user';
+
+  ///  Recipes Actions
+  static const putLike = '$baseUrl/api/actions/like/';
+  static const putSave = '$baseUrl/api/actions/save/';
 }
