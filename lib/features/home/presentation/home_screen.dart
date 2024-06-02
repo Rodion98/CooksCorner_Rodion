@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/core/app/io_ui.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/home/presentation/bloc/home_bloc.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/home/presentation/widgets/build_grid_view%20copy.dart';
-import 'package:neobis_flutter_cooks_corner_rodion/features/home/presentation/widgets/build_grid_view.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/gen/strings.g.dart';
 
 @RoutePage()
@@ -25,14 +24,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       length: Constants.tabsHome.length,
       vsync: this,
     );
-    context.read<HomeBloc>().add(Load(index: 0));
-    tabController.addListener(() {
-      if (tabController.indexIsChanging) {
-        context.read<HomeBloc>().add(
-              Load(index: tabController.index),
-            );
-      }
-    });
+    context.read<HomeBloc>().add(Load());
+    // tabController.addListener(() {
+    //   if (tabController.indexIsChanging) {
+    //     context.read<HomeBloc>().add(
+    //           Load(),
+    //         );
+    //   }
+    // });
   }
 
   @override
@@ -74,19 +73,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               controller: tabController,
               children: [
                 BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-                  HomeState;
-                  final recipes = state.stateModel.recipes;
-                  return BuilGridViewCopy(recipes: recipes);
+                  final recipes = state.stateModel.breakfastRecipes;
+                  return BuilGridView(recipes: recipes);
                 }),
                 BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-                  HomeState;
-                  final recipes = state.stateModel.recipes;
-                  return BuilGridViewCopy(recipes: recipes);
+                  final recipes = state.stateModel.dinnerRecipes;
+                  return BuilGridView(recipes: recipes);
                 }),
                 BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-                  HomeState;
-                  final recipes = state.stateModel.recipes;
-                  return BuilGridViewCopy(recipes: recipes);
+                  final recipes = state.stateModel.lunchRecipes;
+                  return BuilGridView(recipes: recipes);
                 })
               ],
             ),
@@ -100,9 +96,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   TabBar _buildTabBar(List<Tab> category) {
     return TabBar(
       controller: tabController,
-      // onTap: (index) {
-      //   context.read<HomeBloc>().add(Load(index: index));
-      // },
       tabAlignment: TabAlignment.start,
       indicatorWeight: 0.5,
       indicatorPadding: EdgeInsets.all(10),

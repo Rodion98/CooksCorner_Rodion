@@ -60,7 +60,6 @@ class _BottomMenuScreenState extends State<BottomMenuScreen> {
     return GestureDetector(
       onTap: () {
         onSelectedItem(item.index);
-        print(item.index);
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,

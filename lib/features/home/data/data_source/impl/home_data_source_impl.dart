@@ -13,11 +13,35 @@ class HomeDataSourceImpl implements HomeDataSource {
   );
 
   @override
-  Future<List<RecipeModel>> getRecipesCategory({String? category}) async {
+  Future<List<RecipeModel>> getBreakfast() async {
     final result = await _client.get(
       HttpPaths.getHomeRecipes,
       queryParameters: {
-        "category": category,
+        "category": "breakfast",
+      },
+    );
+    print(result);
+    return (result.data as List).map((e) => RecipeModel.fromJson(e)).toList();
+  }
+
+  @override
+  Future<List<RecipeModel>> getDinner() async {
+    final result = await _client.get(
+      HttpPaths.getHomeRecipes,
+      queryParameters: {
+        "category": "dinner",
+      },
+    );
+    print(result);
+    return (result.data as List).map((e) => RecipeModel.fromJson(e)).toList();
+  }
+
+  @override
+  Future<List<RecipeModel>> getLunch() async {
+    final result = await _client.get(
+      HttpPaths.getHomeRecipes,
+      queryParameters: {
+        "category": "lunch",
       },
     );
     print(result);

@@ -6,9 +6,8 @@ import 'package:injectable/injectable.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/core/network/entity/state_status.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/home/domain/entity/recipe_home_entity.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/profile/domain/entity/profile_entity.dart';
-import 'package:neobis_flutter_cooks_corner_rodion/features/profile/domain/useCase/my_recipe_use_case%20copy.dart';
+import 'package:neobis_flutter_cooks_corner_rodion/features/profile/domain/useCase/get_recipes_use_case.dart';
 import 'package:neobis_flutter_cooks_corner_rodion/features/profile/domain/useCase/profile_use_case.dart';
-import 'package:neobis_flutter_cooks_corner_rodion/features/profile/domain/useCase/saved_recipe_use_case.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
@@ -18,12 +17,10 @@ part 'profile_bloc.freezed.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileUseCase profileUseCase;
   final MyRecipeHomeUseCase myRecipeHomeUseCase;
-  final SavedRecipeHomeUseCase savedRecipeHomeUseCase;
 
   ProfileBloc(
     this.profileUseCase,
     this.myRecipeHomeUseCase,
-    this.savedRecipeHomeUseCase,
   ) : super(ProfileState(
           profileEntity: null,
           myRecipes: [],
@@ -31,8 +28,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           stateStatus: StateStatus.initial(),
         )) {
     on<_GetProfile>(_onGetProfile);
-    on<_GetMyRecipes>(_onGetMyRecipes);
-    on<_GetSavedRecipes>(_onGetSavedRecipes);
+    on<_GetRecipes>(_onGetRecipes);
   }
 
   FutureOr<void> _onGetProfile(_GetProfile event, Emitter<ProfileState> emit) async {
@@ -46,23 +42,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
   }
 
-  FutureOr<void> _onGetMyRecipes(_GetMyRecipes event, Emitter<ProfileState> emit) async {
+  FutureOr<void> _onGetRecipes(_GetRecipes event, Emitter<ProfileState> emit) async {
     final result = await myRecipeHomeUseCase.call();
 
     result.fold((l) {
       emit(state.copyWith(stateStatus: StateStatus.failure(message: l.message ?? l.toString())));
-    }, (r) {
-      emit(state.copyWith(stateStatus: const StateStatus.success(), myRecipes: r));
-    });
-  }
-
-  FutureOr<void> _onGetSavedRecipes(_GetSavedRecipes event, Emitter<ProfileState> emit) async {
-    final result = await savedRecipeHomeUseCase.call();
-
-    result.fold((l) {
-      emit(state.copyWith(stateStatus: StateStatus.failure(message: l.message ?? l.toString())));
-    }, (r) {
-      emit(state.copyWith(stateStatus: const StateStatus.success(), savedRedipes: r));
+    }, (recipes) {
+      final myRecipes = recipes['ny'] ?? [];
+      final savedRecipes = recipes['saved'] ?? [];
+      emit(state.copyWith(
+        stateStatus: const StateStatus.success(),
+        myRecipes: myRecipes,
+        savedRedipes: savedRecipes,
+      ));
     });
   }
 }

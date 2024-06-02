@@ -20,10 +20,22 @@ class HomeRecipeRepositoryImpl extends HomeRepo {
   );
 
   @override
-  Future<Either<Failure, List<RecipeEntity>>> getRecipeCategory(String? category) async {
+  Future<Either<Failure, Map<String, List<RecipeEntity>>>> getRecipeCategory() async {
     try {
-      final result = await _dataSource.getRecipesCategory(category: category);
-      final recipes = result.map((e) => _converter.convert(e)).toList();
+      final results = await Future.wait([
+        _dataSource.getBreakfast(),
+        _dataSource.getLunch(),
+        _dataSource.getDinner(),
+      ]);
+
+      final breakfastRecipes = results[0].map((e) => _converter.convert(e)).toList();
+      final lunchRecipes = results[1].map((e) => _converter.convert(e)).toList();
+      final dinnerRecipes = results[2].map((e) => _converter.convert(e)).toList();
+      final recipes = {
+        'breakfast': breakfastRecipes,
+        'lunch': lunchRecipes,
+        'dinner': dinnerRecipes,
+      };
       return Right(recipes);
     } catch (e) {
       return onRepositoryException(e);

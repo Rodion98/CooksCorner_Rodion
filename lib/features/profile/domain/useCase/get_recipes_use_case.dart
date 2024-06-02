@@ -10,8 +10,8 @@ class MyRecipeHomeUseCase {
 
   MyRecipeHomeUseCase({required this.repo});
 
-  Future<Either<Failure, List<RecipeEntity>>> call() async {
-    var entity = await repo.getMyRecipe();
+  Future<Either<Failure, Map<String, List<RecipeEntity>>>> call() async {
+    var entity = await repo.getRecipes();
     return entity;
   }
 }

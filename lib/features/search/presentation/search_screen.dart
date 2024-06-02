@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +22,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMixin {
   late TabController tabController;
-
+  Timer? _debounce;
   final query = TextEditingController();
   @override
   void initState() {
@@ -36,23 +38,11 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
     });
   }
 
-  void _performSearch() {
-    if (query.text.isNotEmpty) {
-      context.read<SearchBloc>().add(
-            Search(type: tabController.index, query: query.text),
-          );
-    } else if (query.text.isEmpty) {
-      print('empty');
-      query.clear();
-      context.read<SearchBloc>().add(
-            ClearSearchResults(),
-          );
-    }
-  }
-
   @override
   void dispose() {
     query.dispose();
+    _debounce?.cancel();
+    tabController.dispose();
     super.dispose();
   }
 
@@ -74,50 +64,80 @@ class _SearchScreenState extends State<SearchScreen> with TickerProviderStateMix
               style: AppTextStyle.poppinsProfile22,
             ),
             SizedBox(height: 24),
-            Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 6.5,
-                vertical: 8,
-              ),
-              // margin:,
-              child: _buildTabBar(Constants.tabsSearch, 0),
-              decoration: BoxDecoration(
-                color: AppColors.primarySecondary,
-                borderRadius: BorderRadius.circular(100),
-              ),
-            ),
+            _buildTabBarWidget(),
             SizedBox(height: 28),
-            MyTextFieldhWidget(
-              onChanged: (_) {
-                context.read<SearchBloc>().add(
-                      Search(
-                        type: tabController.index,
-                        query: query.text,
-                      ),
-                    );
-              },
-              controller: query,
-              hintText: t.SearchRecipes,
-              suffixIcon: [Icons.search, Icons.clear],
-            ),
-            Expanded(
-              child: TabBarView(controller: tabController, children: [
-                SearchResultsWidget(type: SearchType.chefs),
-                SearchResultsWidget(type: SearchType.recipes),
-              ]),
-            ),
-            MyElevatedButtonWidget(
-              onTap: () {
-                AutoRouter.of(context).push(
-                  const CreateRecipeRoute(),
-                );
-              },
-              text: t.AddRecipe,
-              icon: Icons.add_circle,
-            ),
+            _buildSearchFiled(),
+            _buildResult(),
+            _buildButton(context),
             SizedBox(height: 24),
           ]),
         ),
+      ),
+    );
+  }
+
+  MyElevatedButtonWidget _buildButton(BuildContext context) {
+    return MyElevatedButtonWidget(
+      onTap: () {
+        AutoRouter.of(context).push(
+          const CreateRecipeRoute(),
+        );
+      },
+      text: t.AddRecipe,
+      icon: Icons.add_circle,
+    );
+  }
+
+  Expanded _buildResult() {
+    return Expanded(
+      child: TabBarView(controller: tabController, children: [
+        SearchResultsWidget(type: SearchType.chefs),
+        SearchResultsWidget(type: SearchType.recipes),
+      ]),
+    );
+  }
+
+  MyTextFieldhWidget _buildSearchFiled() {
+    return MyTextFieldhWidget(
+      onChanged: (_) {
+        _onSearchChanged();
+      },
+      controller: query,
+      hintText: t.SearchRecipes,
+      suffixIcon: [Icons.search, Icons.clear],
+    );
+  }
+
+  void _performSearch() {
+    if (query.text.isNotEmpty) {
+      context.read<SearchBloc>().add(
+            Search(type: tabController.index, query: query.text),
+          );
+    } else if (query.text.isEmpty) {
+      query.clear();
+      context.read<SearchBloc>().add(
+            ClearSearchResults(),
+          );
+    }
+  }
+
+  void _onSearchChanged() {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 300), () {
+      _performSearch();
+    });
+  }
+
+  Container _buildTabBarWidget() {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 6.5,
+        vertical: 8,
+      ),
+      child: _buildTabBar(Constants.tabsSearch, 0),
+      decoration: BoxDecoration(
+        color: AppColors.primarySecondary,
+        borderRadius: BorderRadius.circular(100),
       ),
     );
   }

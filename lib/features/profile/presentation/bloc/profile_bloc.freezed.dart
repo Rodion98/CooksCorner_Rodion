@@ -19,44 +19,38 @@ mixin _$ProfileEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getProfile,
-    required TResult Function() getMyRecipes,
-    required TResult Function() getSavedRecipes,
+    required TResult Function() getRecipes,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getProfile,
-    TResult? Function()? getMyRecipes,
-    TResult? Function()? getSavedRecipes,
+    TResult? Function()? getRecipes,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getProfile,
-    TResult Function()? getMyRecipes,
-    TResult Function()? getSavedRecipes,
+    TResult Function()? getRecipes,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_GetProfile value) getProfile,
-    required TResult Function(_GetMyRecipes value) getMyRecipes,
-    required TResult Function(_GetSavedRecipes value) getSavedRecipes,
+    required TResult Function(_GetRecipes value) getRecipes,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_GetProfile value)? getProfile,
-    TResult? Function(_GetMyRecipes value)? getMyRecipes,
-    TResult? Function(_GetSavedRecipes value)? getSavedRecipes,
+    TResult? Function(_GetRecipes value)? getRecipes,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_GetProfile value)? getProfile,
-    TResult Function(_GetMyRecipes value)? getMyRecipes,
-    TResult Function(_GetSavedRecipes value)? getSavedRecipes,
+    TResult Function(_GetRecipes value)? getRecipes,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -119,8 +113,7 @@ class _$GetProfileImpl implements _GetProfile {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getProfile,
-    required TResult Function() getMyRecipes,
-    required TResult Function() getSavedRecipes,
+    required TResult Function() getRecipes,
   }) {
     return getProfile();
   }
@@ -129,8 +122,7 @@ class _$GetProfileImpl implements _GetProfile {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getProfile,
-    TResult? Function()? getMyRecipes,
-    TResult? Function()? getSavedRecipes,
+    TResult? Function()? getRecipes,
   }) {
     return getProfile?.call();
   }
@@ -139,8 +131,7 @@ class _$GetProfileImpl implements _GetProfile {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getProfile,
-    TResult Function()? getMyRecipes,
-    TResult Function()? getSavedRecipes,
+    TResult Function()? getRecipes,
     required TResult orElse(),
   }) {
     if (getProfile != null) {
@@ -153,8 +144,7 @@ class _$GetProfileImpl implements _GetProfile {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_GetProfile value) getProfile,
-    required TResult Function(_GetMyRecipes value) getMyRecipes,
-    required TResult Function(_GetSavedRecipes value) getSavedRecipes,
+    required TResult Function(_GetRecipes value) getRecipes,
   }) {
     return getProfile(this);
   }
@@ -163,8 +153,7 @@ class _$GetProfileImpl implements _GetProfile {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_GetProfile value)? getProfile,
-    TResult? Function(_GetMyRecipes value)? getMyRecipes,
-    TResult? Function(_GetSavedRecipes value)? getSavedRecipes,
+    TResult? Function(_GetRecipes value)? getRecipes,
   }) {
     return getProfile?.call(this);
   }
@@ -173,8 +162,7 @@ class _$GetProfileImpl implements _GetProfile {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_GetProfile value)? getProfile,
-    TResult Function(_GetMyRecipes value)? getMyRecipes,
-    TResult Function(_GetSavedRecipes value)? getSavedRecipes,
+    TResult Function(_GetRecipes value)? getRecipes,
     required TResult orElse(),
   }) {
     if (getProfile != null) {
@@ -189,35 +177,35 @@ abstract class _GetProfile implements ProfileEvent {
 }
 
 /// @nodoc
-abstract class _$$GetMyRecipesImplCopyWith<$Res> {
-  factory _$$GetMyRecipesImplCopyWith(
-          _$GetMyRecipesImpl value, $Res Function(_$GetMyRecipesImpl) then) =
-      __$$GetMyRecipesImplCopyWithImpl<$Res>;
+abstract class _$$GetRecipesImplCopyWith<$Res> {
+  factory _$$GetRecipesImplCopyWith(
+          _$GetRecipesImpl value, $Res Function(_$GetRecipesImpl) then) =
+      __$$GetRecipesImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$GetMyRecipesImplCopyWithImpl<$Res>
-    extends _$ProfileEventCopyWithImpl<$Res, _$GetMyRecipesImpl>
-    implements _$$GetMyRecipesImplCopyWith<$Res> {
-  __$$GetMyRecipesImplCopyWithImpl(
-      _$GetMyRecipesImpl _value, $Res Function(_$GetMyRecipesImpl) _then)
+class __$$GetRecipesImplCopyWithImpl<$Res>
+    extends _$ProfileEventCopyWithImpl<$Res, _$GetRecipesImpl>
+    implements _$$GetRecipesImplCopyWith<$Res> {
+  __$$GetRecipesImplCopyWithImpl(
+      _$GetRecipesImpl _value, $Res Function(_$GetRecipesImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$GetMyRecipesImpl implements _GetMyRecipes {
-  const _$GetMyRecipesImpl();
+class _$GetRecipesImpl implements _GetRecipes {
+  const _$GetRecipesImpl();
 
   @override
   String toString() {
-    return 'ProfileEvent.getMyRecipes()';
+    return 'ProfileEvent.getRecipes()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$GetMyRecipesImpl);
+        (other.runtimeType == runtimeType && other is _$GetRecipesImpl);
   }
 
   @override
@@ -227,32 +215,29 @@ class _$GetMyRecipesImpl implements _GetMyRecipes {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getProfile,
-    required TResult Function() getMyRecipes,
-    required TResult Function() getSavedRecipes,
+    required TResult Function() getRecipes,
   }) {
-    return getMyRecipes();
+    return getRecipes();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getProfile,
-    TResult? Function()? getMyRecipes,
-    TResult? Function()? getSavedRecipes,
+    TResult? Function()? getRecipes,
   }) {
-    return getMyRecipes?.call();
+    return getRecipes?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getProfile,
-    TResult Function()? getMyRecipes,
-    TResult Function()? getSavedRecipes,
+    TResult Function()? getRecipes,
     required TResult orElse(),
   }) {
-    if (getMyRecipes != null) {
-      return getMyRecipes();
+    if (getRecipes != null) {
+      return getRecipes();
     }
     return orElse();
   }
@@ -261,147 +246,36 @@ class _$GetMyRecipesImpl implements _GetMyRecipes {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_GetProfile value) getProfile,
-    required TResult Function(_GetMyRecipes value) getMyRecipes,
-    required TResult Function(_GetSavedRecipes value) getSavedRecipes,
+    required TResult Function(_GetRecipes value) getRecipes,
   }) {
-    return getMyRecipes(this);
+    return getRecipes(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_GetProfile value)? getProfile,
-    TResult? Function(_GetMyRecipes value)? getMyRecipes,
-    TResult? Function(_GetSavedRecipes value)? getSavedRecipes,
+    TResult? Function(_GetRecipes value)? getRecipes,
   }) {
-    return getMyRecipes?.call(this);
+    return getRecipes?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_GetProfile value)? getProfile,
-    TResult Function(_GetMyRecipes value)? getMyRecipes,
-    TResult Function(_GetSavedRecipes value)? getSavedRecipes,
+    TResult Function(_GetRecipes value)? getRecipes,
     required TResult orElse(),
   }) {
-    if (getMyRecipes != null) {
-      return getMyRecipes(this);
+    if (getRecipes != null) {
+      return getRecipes(this);
     }
     return orElse();
   }
 }
 
-abstract class _GetMyRecipes implements ProfileEvent {
-  const factory _GetMyRecipes() = _$GetMyRecipesImpl;
-}
-
-/// @nodoc
-abstract class _$$GetSavedRecipesImplCopyWith<$Res> {
-  factory _$$GetSavedRecipesImplCopyWith(_$GetSavedRecipesImpl value,
-          $Res Function(_$GetSavedRecipesImpl) then) =
-      __$$GetSavedRecipesImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$GetSavedRecipesImplCopyWithImpl<$Res>
-    extends _$ProfileEventCopyWithImpl<$Res, _$GetSavedRecipesImpl>
-    implements _$$GetSavedRecipesImplCopyWith<$Res> {
-  __$$GetSavedRecipesImplCopyWithImpl(
-      _$GetSavedRecipesImpl _value, $Res Function(_$GetSavedRecipesImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$GetSavedRecipesImpl implements _GetSavedRecipes {
-  const _$GetSavedRecipesImpl();
-
-  @override
-  String toString() {
-    return 'ProfileEvent.getSavedRecipes()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$GetSavedRecipesImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() getProfile,
-    required TResult Function() getMyRecipes,
-    required TResult Function() getSavedRecipes,
-  }) {
-    return getSavedRecipes();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? getProfile,
-    TResult? Function()? getMyRecipes,
-    TResult? Function()? getSavedRecipes,
-  }) {
-    return getSavedRecipes?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? getProfile,
-    TResult Function()? getMyRecipes,
-    TResult Function()? getSavedRecipes,
-    required TResult orElse(),
-  }) {
-    if (getSavedRecipes != null) {
-      return getSavedRecipes();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_GetProfile value) getProfile,
-    required TResult Function(_GetMyRecipes value) getMyRecipes,
-    required TResult Function(_GetSavedRecipes value) getSavedRecipes,
-  }) {
-    return getSavedRecipes(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GetProfile value)? getProfile,
-    TResult? Function(_GetMyRecipes value)? getMyRecipes,
-    TResult? Function(_GetSavedRecipes value)? getSavedRecipes,
-  }) {
-    return getSavedRecipes?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GetProfile value)? getProfile,
-    TResult Function(_GetMyRecipes value)? getMyRecipes,
-    TResult Function(_GetSavedRecipes value)? getSavedRecipes,
-    required TResult orElse(),
-  }) {
-    if (getSavedRecipes != null) {
-      return getSavedRecipes(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _GetSavedRecipes implements ProfileEvent {
-  const factory _GetSavedRecipes() = _$GetSavedRecipesImpl;
+abstract class _GetRecipes implements ProfileEvent {
+  const factory _GetRecipes() = _$GetRecipesImpl;
 }
 
 /// @nodoc

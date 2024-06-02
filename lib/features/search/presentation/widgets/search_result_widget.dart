@@ -63,41 +63,7 @@ class SearchResultsWidget extends StatelessWidget {
                                     style: AppTextStyle.poppins14,
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: GestureDetector(
-                                    onTap: () {},
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        type == SearchType.recipes
-                                            ? AutoRouter.of(context).push(
-                                                DetailRecipeRoute(id: (item as SearchRecipeEntity).id),
-                                              )
-                                            : AutoRouter.of(context).push(
-                                                DetailRecipeRoute(
-                                                    id: type == SearchType.chefs
-                                                        ? (item as SearchChefsEntity).id
-                                                        : (item as SearchRecipeEntity).id),
-                                              );
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            t.View,
-                                            style: AppTextStyle.poppins12.copyWith(
-                                              color: AppColors.primary,
-                                            ),
-                                          ),
-                                          SizedBox(width: 10),
-                                          Icon(
-                                            Icons.arrow_forward,
-                                            color: AppColors.primary,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                )
+                                _buildButton(context, item)
                               ],
                             ),
                           );
@@ -114,6 +80,39 @@ class SearchResultsWidget extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Align _buildButton(BuildContext context, Object item) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: GestureDetector(
+        onTap: () {
+          type == SearchType.recipes
+              ? AutoRouter.of(context).push(
+                  DetailRecipeRoute(id: (item as SearchRecipeEntity).id),
+                )
+              : AutoRouter.of(context).push(
+                  DetailRecipeRoute(
+                      id: type == SearchType.chefs ? (item as SearchChefsEntity).id : (item as SearchRecipeEntity).id),
+                );
+        },
+        child: Row(
+          children: [
+            Text(
+              t.View,
+              style: AppTextStyle.poppins12.copyWith(
+                color: AppColors.primary,
+              ),
+            ),
+            SizedBox(width: 10),
+            Icon(
+              Icons.arrow_forward,
+              color: AppColors.primary,
+            )
+          ],
+        ),
+      ),
     );
   }
 }

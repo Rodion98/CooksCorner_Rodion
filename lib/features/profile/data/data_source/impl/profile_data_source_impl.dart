@@ -18,7 +18,6 @@ class ProfileDataSourceImpl implements ProfileDataSource {
     final result = await _client.get(
       HttpPaths.getMyProfile,
     );
-    print(result.data);
     return ProfileModel.fromJson(result.data);
   }
 
@@ -27,7 +26,6 @@ class ProfileDataSourceImpl implements ProfileDataSource {
     final result = await _client.get(
       HttpPaths.getMyRecipes,
     );
-    print(result);
     return (result.data as List).map((e) => RecipeModel.fromJson(e)).toList();
   }
 
@@ -36,7 +34,6 @@ class ProfileDataSourceImpl implements ProfileDataSource {
     final result = await _client.get(
       HttpPaths.getMySavedRecipes,
     );
-    print(result);
     return (result.data as List).map((e) => RecipeModel.fromJson(e)).toList();
   }
 }

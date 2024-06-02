@@ -28,29 +28,47 @@ class ProfileRepositoryImpl extends ProfileRepo {
     try {
       final result = await _dataSource.getProfile();
       final profile = _profileConverter.convert(result);
-      print(profile);
       return Right(profile);
     } catch (e) {
       return onRepositoryException(e);
     }
   }
 
-  @override
-  Future<Either<Failure, List<RecipeEntity>>> getMyRecipe() async {
-    try {
-      final result = await _dataSource.getMyRecipes();
-      final recipes = result.map((e) => _recipeConverter.convert(e)).toList();
-      return Right(recipes);
-    } catch (e) {
-      return onRepositoryException(e);
-    }
-  }
+  // @override
+  // Future<Either<Failure, List<RecipeEntity>>> getMyRecipe() async {
+  //   try {
+  //     final result = await _dataSource.getMyRecipes();
+  //     final recipes = result.map((e) => _recipeConverter.convert(e)).toList();
+  //     return Right(recipes);
+  //   } catch (e) {
+  //     return onRepositoryException(e);
+  //   }
+  // }
+
+  // @override
+  // Future<Either<Failure, List<RecipeEntity>>> getSavedRecipe() async {
+  //   try {
+  //     final result = await _dataSource.getSavedRecipes();
+  //     final recipes = result.map((e) => _recipeConverter.convert(e)).toList();
+  //     return Right(recipes);
+  //   } catch (e) {
+  //     return onRepositoryException(e);
+  //   }
+  // }
 
   @override
-  Future<Either<Failure, List<RecipeEntity>>> getSavedRecipe() async {
+  Future<Either<Failure, Map<String, List<RecipeEntity>>>> getRecipes() async {
     try {
-      final result = await _dataSource.getSavedRecipes();
-      final recipes = result.map((e) => _recipeConverter.convert(e)).toList();
+      final results = await Future.wait([
+        _dataSource.getMyRecipes(),
+        _dataSource.getSavedRecipes(),
+      ]);
+      final myRecipes = results[0].map((e) => _recipeConverter.convert(e)).toList();
+      final savedRecipes = results[1].map((e) => _recipeConverter.convert(e)).toList();
+      final recipes = {
+        'my': myRecipes,
+        'saved': savedRecipes,
+      };
       return Right(recipes);
     } catch (e) {
       return onRepositoryException(e);

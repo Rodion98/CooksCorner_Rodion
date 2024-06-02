@@ -5,6 +5,5 @@ import 'package:neobis_flutter_cooks_corner_rodion/features/profile/domain/entit
 
 abstract class ProfileRepo {
   Future<Either<Failure, ProfileEntity>> getProfile();
-  Future<Either<Failure, List<RecipeEntity>>> getMyRecipe();
-  Future<Either<Failure, List<RecipeEntity>>> getSavedRecipe();
+  Future<Either<Failure, Map<String, List<RecipeEntity>>>> getRecipes();
 }
